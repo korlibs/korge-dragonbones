@@ -1,0 +1,6 @@
+#name: deps
+dependencies:
+  #- git::korge-dragonbones::korlibs/korge-dragonbones::/korge-dragonbones::2d1b8299636cffca851e05aec446dc99120dfd1b
+  #- git::korge-dragonbones::korlibs/korge-dragonbones::/korge-dragonbones::v0.0.1
+  - ../korge-dragonbones
+
