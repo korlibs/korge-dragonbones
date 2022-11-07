@@ -31,6 +31,7 @@ import com.soywiz.kds.iterators.*
 import com.dragonbones.model.*
 import com.dragonbones.util.*
 import com.soywiz.kds.*
+import com.soywiz.klock.*
 import com.soywiz.klogger.*
 
 /**
@@ -589,7 +590,14 @@ class Animation(pool: SingleObjectPool<Animation>) : BaseObject(pool) {
 
 		return this.playConfig(_animationConfig1)
 	}
-	/**
+
+    fun fadeIn(
+        animationName: String, fadeInTime: TimeSpan, playTimes: Int = -1,
+        layer: Int = 0, group: String? = null, fadeOutMode: AnimationFadeOutMode = AnimationFadeOutMode.SameLayerAndGroup
+    ): AnimationState? {
+        return fadeIn(animationName, fadeInTime.seconds, playTimes, layer, group, fadeOutMode)
+    }
+    /**
 	 * - Play a specific animation from the specific time.
 	 * @param animationName - The name of animation data.
 	 * @param time - The start time point of playing. (In seconds)
