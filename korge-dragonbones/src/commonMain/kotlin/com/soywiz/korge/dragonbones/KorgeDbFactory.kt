@@ -32,6 +32,13 @@ import com.soywiz.kds.*
 import com.soywiz.klock.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.bitmap.*
+import com.soywiz.korim.format.*
+import com.soywiz.korio.async.*
+import com.soywiz.korio.dynamic.*
+import com.soywiz.korio.file.*
+import com.soywiz.korio.serialization.json.*
+import kotlinx.coroutines.*
+import kotlin.coroutines.*
 import kotlin.native.concurrent.ThreadLocal
 
 /**
@@ -199,6 +206,83 @@ open class KorgeDbFactory(pool: BaseObjectPool = BaseObjectPool(), dataParser: D
 		get() {
 			return this._dragonBones.eventManager as KorgeDbArmatureDisplay
 		}
+
+
+    private suspend fun VfsFile.loadDbFile(): Any {
+        return readBytes().let { bytes ->
+            when {
+                bytes[0] == '{'.code.toByte() -> Json.parseFast(bytes.decodeToString())!!
+                else -> bytes
+            }
+        }
+    }
+
+    /**
+     * Loads any kind of [files] either, armatures or texture atlases.
+     */
+    suspend fun loadData(
+        vararg files: VfsFile,
+        name: String? = null, scale: Double = 1.0
+    ): List<Pair<VfsFile, Any>> {
+        return files.map { file ->
+            asyncImmediately(coroutineContext) {
+                val data = file.loadDbFile()
+                file to when {
+                    data is ByteArray || data.dyn["frameRate"].isNotNull -> {
+                        parseDragonBonesData(data, name, scale)!!
+                    }
+                    data.dyn["imagePath"].isNotNull -> {
+                        val bitmap = file.parent[data.dyn["imagePath"].str].readBitmap().mipmaps()
+                        parseTextureAtlasData(data, bitmap, name, scale)
+                    }
+                    else -> {
+                        Unit
+                    }
+                }
+            }
+        }.awaitAll()
+    }
+
+    data class SkeletonAndAtlas(val data: DragonBonesData, val atlas: TextureAtlasData)
+
+    suspend fun loadSkeletonAndAtlas(
+        skelFile: VfsFile,
+        atlasJson: VfsFile,
+        name: String? = null, scale: Double = 1.0
+    ): SkeletonAndAtlas {
+        val skel = asyncImmediately(coroutineContext) { loadSkeleton(skelFile, name, scale) }
+        val atlas = asyncImmediately(coroutineContext) { loadAtlas(atlasJson, name, scale) }
+        return SkeletonAndAtlas(skel.await(), atlas.await())
+    }
+
+    suspend fun loadSkeleton(
+        skelFile: VfsFile,
+        name: String? = null, scale: Double = 1.0
+    ): DragonBonesData {
+        return parseDragonBonesData(skelFile.loadDbFile(), name, scale)!!
+    }
+
+    suspend fun loadAtlas(
+        atlasJson: VfsFile,
+        name: String? = null,
+        scale: Double = 1.0,
+    ): TextureAtlasData {
+        val json = Json.parseFast(atlasJson.readString())!!
+        val bitmap = atlasJson.parent[json.dyn["imagePath"].str].readBitmap().mipmaps()
+        return parseTextureAtlasData(json, bitmap, name, scale)
+    }
+
+    suspend fun loadAtlas(
+        atlasJson: VfsFile,
+        atlasImage: VfsFile,
+        name: String? = null,
+        scale: Double = 1.0,
+    ): TextureAtlasData {
+        val json = asyncImmediately(coroutineContext) { Json.parseFast(atlasJson.readString())!! }
+        val bitmap = asyncImmediately(coroutineContext) { atlasImage.readBitmap() }
+        return parseTextureAtlasData(json.await(), bitmap.await(), name, scale)
+    }
+
 }
 
 @ThreadLocal
