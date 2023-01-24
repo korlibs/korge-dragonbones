@@ -2331,14 +2331,14 @@ open class ObjectDataParser(pool: BaseObjectPool = BaseObjectPool()) : DataParse
 		val l7 = this._colorArray.length * 2
 		val lTotal = l1 + l2 + l3 + l4 + l5 + l6 + l7
 		//
-		val binary = MemBufferAlloc(lTotal)
-		val intArray = binary.sliceInt16BufferByteOffset(0, this._intArray.length)
-		val floatArray = binary.sliceFloat32BufferByteOffset(l1, this._floatArray.length)
-		val frameIntArray = binary.sliceInt16BufferByteOffset(l1 + l2, this._frameIntArray.length)
-		val frameFloatArray = binary.sliceFloat32BufferByteOffset(l1 + l2 + l3, this._frameFloatArray.length)
-		val frameArray = binary.sliceInt16BufferByteOffset(l1 + l2 + l3 + l4, this._frameArray.length)
-		val timelineArray = binary.sliceUint16BufferByteOffset(l1 + l2 + l3 + l4 + l5, this._timelineArray.length)
-		val colorArray = binary.sliceInt16BufferByteOffset(l1 + l2 + l3 + l4 + l5 + l6, this._colorArray.length)
+		val binary = Buffer(lTotal)
+		val intArray = Int16Buffer(binary.sliceWithSize(0, this._intArray.length * 2))
+		val floatArray = Float32Buffer(binary.sliceWithSize(l1, this._floatArray.length * 4))
+		val frameIntArray = Int16Buffer(binary.sliceWithSize(l1 + l2, this._frameIntArray.length * 2))
+		val frameFloatArray = Float32Buffer(binary.sliceWithSize(l1 + l2 + l3, this._frameFloatArray.length * 4))
+		val frameArray = Int16Buffer(binary.sliceWithSize(l1 + l2 + l3 + l4, this._frameArray.length * 2))
+		val timelineArray = Uint16Buffer(binary.sliceWithSize(l1 + l2 + l3 + l4 + l5, this._timelineArray.length * 2))
+		val colorArray = Int16Buffer(binary.sliceWithSize(l1 + l2 + l3 + l4 + l5 + l6, this._colorArray.length * 2))
 
 		for (i in 0 until this._intArray.length) {
 			intArray[i] = this._intArray[i].toShort()

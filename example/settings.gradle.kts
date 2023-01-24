@@ -2,7 +2,9 @@ pluginManagement { repositories {  mavenLocal(); mavenCentral(); google(); gradl
 
 plugins {
     //id("com.soywiz.kproject.settings") version "0.0.1-SNAPSHOT"
-    id("com.soywiz.kproject.settings") version "0.0.4"
+    id("com.soywiz.kproject.settings") version "0.0.6"
 }
 
 kproject("./deps")
+
+rootProject.name = "dragonbones-example"

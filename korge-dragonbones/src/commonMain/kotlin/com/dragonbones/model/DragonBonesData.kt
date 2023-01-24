@@ -116,7 +116,7 @@ class DragonBonesData(pool: SingleObjectPool<DragonBonesData>) : BaseObject(pool
 	/**
 	 * @internal
 	 */
-	var binary: MemBuffer? = null
+	var binary: Buffer? = null
 	/**
 	 * @internal
 	 */

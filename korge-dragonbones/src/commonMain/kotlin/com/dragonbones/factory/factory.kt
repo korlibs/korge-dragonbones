@@ -349,11 +349,11 @@ abstract class BaseFactory(val pool: BaseObjectPool, dataParser: DataParser = Ob
 	 */
 	fun parseDragonBonesData(rawData: Any, name: String? = null, scale: Double = 1.0): DragonBonesData? {
         val data = when (rawData) {
-            is ByteArray -> MemBufferWrap(rawData)
+            is ByteArray -> Buffer(rawData)
             else -> rawData
         }
 		val dataParser = when (data) {
-            is MemBuffer -> _binaryDataParser
+            is Buffer -> _binaryDataParser
             else -> _dataParser
         }
 		val dragonBonesData = dataParser.parseDragonBonesData(data, scale)

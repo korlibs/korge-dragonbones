@@ -37,10 +37,10 @@ import kotlin.math.*
  */
 class BinaryDataParser(pool: BaseObjectPool = BaseObjectPool())  :  ObjectDataParser(pool) {
 	private var _binaryOffset: Int = 0
-	private lateinit var _binary: MemBuffer
-	private lateinit var _intArrayBuffer: Int16Buffer
-	private lateinit var _frameArrayBuffer: Int16Buffer
-	private var _timelineArrayBuffer: Uint16Buffer = Uint16Buffer(Int16BufferAlloc(0))
+	private lateinit var _binary: Buffer
+	private var _intArrayBuffer: Int16Buffer? = null
+	private var _frameArrayBuffer: Int16Buffer? = null
+	private var _timelineArrayBuffer: Uint16Buffer = Uint16Buffer(0)
 
 	private fun _inRange(a: Int, min: Int, max: Int): Boolean = a in min..max
 
@@ -171,17 +171,13 @@ class BinaryDataParser(pool: BaseObjectPool = BaseObjectPool())  :  ObjectDataPa
 			var frameCount = 0
 			for (i in 0 until totalFrameCount) {
 				if (frameStart + frameCount <= i && iK < keyFrameCount) {
-					frameStart = this._frameArrayBuffer[this._animation!!.frameOffset + this._timelineArrayBuffer[timeline.offset + BinaryOffset.TimelineFrameOffset + iK]].toInt()
-					if (iK == keyFrameCount - 1) {
-						frameCount = this._animation!!.frameCount - frameStart
+					frameStart = this._frameArrayBuffer!![this._animation!!.frameOffset + this._timelineArrayBuffer[timeline.offset + BinaryOffset.TimelineFrameOffset + iK]].toInt()
+					frameCount = when (iK) {
+						keyFrameCount - 1 -> this._animation!!.frameCount - frameStart
+						else -> this._frameArrayBuffer!![this._animation!!.frameOffset + this._timelineArrayBuffer[timeline.offset + BinaryOffset.TimelineFrameOffset + iK + 1]] - frameStart
 					}
-					else {
-						frameCount = this._frameArrayBuffer[this._animation!!.frameOffset + this._timelineArrayBuffer[timeline.offset + BinaryOffset.TimelineFrameOffset + iK + 1]] - frameStart
-					}
-
 					iK++
 				}
-
 				frameIndices[frameIndicesOffset + i] = iK - 1
 			}
 		}
@@ -333,22 +329,22 @@ class BinaryDataParser(pool: BaseObjectPool = BaseObjectPool())  :  ObjectDataPa
 		geometry.offset = rawData.getDynamic(DataParser.OFFSET) as Int
 		geometry.data = this._data
 
-		val weightOffset = this._intArrayBuffer[geometry.offset + BinaryOffset.GeometryWeightOffset].toInt()
+		val weightOffset = this._intArrayBuffer!![geometry.offset + BinaryOffset.GeometryWeightOffset].toInt()
 		if (weightOffset >= 0) {
 			val weight = pool.weightData.borrow()
-			val vertexCount = this._intArrayBuffer[geometry.offset + BinaryOffset.GeometryVertexCount]
-			val boneCount = this._intArrayBuffer[weightOffset + BinaryOffset.WeigthBoneCount]
+			val vertexCount = this._intArrayBuffer!![geometry.offset + BinaryOffset.GeometryVertexCount]
+			val boneCount = this._intArrayBuffer!![weightOffset + BinaryOffset.WeigthBoneCount]
 			weight.offset = weightOffset
 
 			for (i in 0 until boneCount) {
-				val boneIndex = this._intArrayBuffer[weightOffset + BinaryOffset.WeigthBoneIndices + i].toInt()
+				val boneIndex = this._intArrayBuffer!![weightOffset + BinaryOffset.WeigthBoneIndices + i].toInt()
 				weight.addBone(this._rawBones[boneIndex])
 			}
 
 			var boneIndicesOffset = weightOffset + BinaryOffset.WeigthBoneIndices + boneCount
 			var weightCount = 0
 			for (i in 0 until vertexCount) {
-				val vertexBoneCount = this._intArrayBuffer[boneIndicesOffset++]
+				val vertexBoneCount = this._intArrayBuffer!![boneIndicesOffset++]
 				weightCount += vertexBoneCount
 				boneIndicesOffset += vertexBoneCount
 			}
@@ -359,7 +355,7 @@ class BinaryDataParser(pool: BaseObjectPool = BaseObjectPool())  :  ObjectDataPa
 	}
 
 	override fun _parseArray(rawData: Any?) {
-		val offsets = rawData.getDynamic(DataParser.OFFSET).intArrayList
+		val offsets: IntArrayList = rawData.getDynamic(DataParser.OFFSET).intArrayList
 		val l1 = offsets[1]
 		val l2 = offsets[3]
 		val l3 = offsets[5]
@@ -368,13 +364,13 @@ class BinaryDataParser(pool: BaseObjectPool = BaseObjectPool())  :  ObjectDataPa
 		val l6 = offsets[11]
 		val l7 = if (offsets.size > 12) offsets[13] else 0 // Color.
 		val binary = this._binary
-		val intArray = binary.sliceInt16Buffer((this._binaryOffset + offsets[0]) / 2, l1 / 2)
-		val floatArray = binary.sliceFloat32Buffer((this._binaryOffset + offsets[2]) / 4, l2 / 4)
-		val frameIntArray = binary.sliceInt16Buffer((this._binaryOffset + offsets[4]) / 2, l3 / 2)
-		val frameFloatArray = binary.sliceFloat32Buffer((this._binaryOffset + offsets[6]) / 4, l4 / 4)
-		val frameArray = binary.sliceInt16Buffer((this._binaryOffset + offsets[8]) / 2, l5 / 2)
-		val timelineArray = binary.sliceUint16Buffer((this._binaryOffset + offsets[10]) / 2, l6 / 2)
-		val colorArray = if (l7 > 0) binary.sliceInt16Buffer((this._binaryOffset + offsets[12]) / 2, l7 / 2) else intArray // Color.
+		val intArray = Int16Buffer(binary.sliceWithSize((this._binaryOffset + offsets[0]), l1))
+		val floatArray = Float32Buffer(binary.sliceWithSize((this._binaryOffset + offsets[2]), l2))
+		val frameIntArray = Int16Buffer(binary.sliceWithSize((this._binaryOffset + offsets[4]), l3))
+		val frameFloatArray = Float32Buffer(binary.sliceWithSize((this._binaryOffset + offsets[6]), l4))
+		val frameArray = Int16Buffer(binary.sliceWithSize((this._binaryOffset + offsets[8]), l5))
+		val timelineArray = Uint16Buffer(binary.sliceWithSize((this._binaryOffset + offsets[10]), l6))
+		val colorArray = if (l7 > 0) Int16Buffer(binary.sliceWithSize((this._binaryOffset + offsets[12]), l7)) else intArray // Color.
 
 		this._data!!.binary = this._binary
 		this._data!!.intArray = intArray
@@ -392,15 +388,15 @@ class BinaryDataParser(pool: BaseObjectPool = BaseObjectPool())  :  ObjectDataPa
 	override fun parseDragonBonesData(rawData: Any?, scale: Double): DragonBonesData? {
 		//console.assert(rawData != null && rawData is MemBuffer, "Data error.")
 
-		val tag = NewUint8Buffer(rawData as MemBuffer, 0, 8)
-        val data = rawData.getData()
+		val data: Buffer = rawData as Buffer
+		val tag = Uint8Buffer(data).slice(0, 8)
 		if (tag[0] != 'D'.toInt() || tag[1] != 'B'.toInt() || tag[2] != 'D'.toInt() || tag[3] != 'T'.toInt()) {
 			Console.assert(false, "Nonsupport data.")
 			return null
 		}
 
-        val headerLength = data.getInt(8)
-		val headerString = this._decodeUTF8(NewUint8Buffer(rawData, 8 + 4, headerLength))
+        val headerLength = data.getUnalignedInt32(8)
+		val headerString = this._decodeUTF8(Uint8Buffer(rawData).sliceWithSize(8 + 4, headerLength))
 		val header = Json.parseFast(headerString)
 		//
 		this._binaryOffset = 8 + 4 + headerLength

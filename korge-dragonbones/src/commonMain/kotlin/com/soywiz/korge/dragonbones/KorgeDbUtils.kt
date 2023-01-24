@@ -1,7 +1,7 @@
 package com.soywiz.korge.dragonbones
 
 import com.dragonbones.model.*
-import com.soywiz.kmem.MemBufferWrap
+import com.soywiz.kmem.*
 import com.soywiz.korim.bitmap.*
 import com.soywiz.korim.format.*
 import com.soywiz.korio.dynamic.*
@@ -12,7 +12,7 @@ suspend fun VfsFile.readDbAtlas(factory: KorgeDbFactory): TextureAtlasData? {
 	val jsonFile = this
 	val tex = jsonFile.readString()
 	val texInfo = Json.parseFast(tex)!!
-	val imageFile = jsonFile.parent[KDynamic { texInfo["imagePath"].str }].takeIfExists() ?: return null
+	val imageFile = jsonFile.parent[texInfo.dyn["imagePath"].str].takeIfExists() ?: return null
 	val image = imageFile.readBitmap().mipmaps()
 	return factory.parseTextureAtlasData(Json.parseFast(tex)!!, image)
 }
@@ -21,20 +21,18 @@ suspend fun VfsFile.readDbSkeleton(factory: KorgeDbFactory): DragonBonesData {
     val file = this
     val ske = when {
         this.extensionLC.endsWith("json") -> Json.parseFast(this.readString())!!
-        this.extensionLC.endsWith("dbbin") -> MemBufferWrap(this.readBytes())
+        this.extensionLC.endsWith("dbbin") -> Buffer(this.readBytes())
         else -> error("Unsupported DragonBones skeleton ${this.baseName} : ${this.extension}")
     }
     // JSON including textureAtlas
     if (ske is Map<*, *> && ske.containsKey("textureAtlas")) {
-        KDynamic {
-            val textureAtlasList = ske["textureAtlas"]
-            for (textureAtlas in textureAtlasList.list) {
-                val imagePath = textureAtlas["imagePath"].str
-                val imageFile = file.parent[imagePath].takeIfExists()
-                if (imageFile != null) {
-                    val image = imageFile.readBitmap().mipmaps()
-                    factory.parseTextureAtlasData(textureAtlas!!, image)
-                }
+        val textureAtlasList = ske.dyn["textureAtlas"]
+        for (textureAtlas in textureAtlasList.list) {
+            val imagePath = textureAtlas["imagePath"].str
+            val imageFile = file.parent[imagePath].takeIfExists()
+            if (imageFile != null) {
+                val image = imageFile.readBitmap().mipmaps()
+                factory.parseTextureAtlasData(textureAtlas!!, image)
             }
         }
     }

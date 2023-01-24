@@ -187,9 +187,9 @@ class KorgeDbSlot(pool: SingleObjectPool<KorgeDbSlot>) : Slot(pool) {
 					val textureAtlasHeight = if (currentTextureAtlasData.height > 0.0) currentTextureAtlasData.height else renderTexture.bmpHeight
 					val region = currentTextureData.region
 
-					meshDisplay.vertices = Float32BufferAlloc(vertexCount * 2)
-					meshDisplay.uvs = Float32BufferAlloc(vertexCount * 2)
-					meshDisplay.indices = Uint16BufferAlloc(triangleCount * 3)
+					meshDisplay.vertices = Float32Buffer(vertexCount * 2)
+					meshDisplay.uvs = Float32Buffer(vertexCount * 2)
+					meshDisplay.indices = Uint16Buffer(triangleCount * 3)
 					meshDisplay.name = name
 
 					//println("Slot[$name]=(vertexCount=$vertexCount,triangleCount=$triangleCount,vertexOffset=$vertexOffset)")

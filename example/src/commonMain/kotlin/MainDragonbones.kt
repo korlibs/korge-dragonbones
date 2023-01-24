@@ -1,6 +1,7 @@
 import com.dragonbones.event.EventObject
 import com.soywiz.kds.WeakPropertyThis
 import com.soywiz.klock.milliseconds
+import com.soywiz.kmem.*
 import com.soywiz.korge.dragonbones.KorgeDbFactory
 import com.soywiz.korge.input.MouseEvents
 import com.soywiz.korge.input.mouse
@@ -141,8 +142,8 @@ class MainDragonbones : Scene() {
     class HelloWorldScene : BaseDbScene() {
         val SCALE = 1.6
         override suspend fun SContainer.sceneInit() {
-            val skeDeferred = async { Json.parseFast(res["mecha_1002_101d_show/mecha_1002_101d_show_ske.json"].readString())!! }
-            //val skeDeferred = async { MemBufferWrap(resources["mecha_1002_101d_show/mecha_1002_101d_show_ske.dbbin"].readBytes()) }
+            //val skeDeferred = async { Json.parseFast(res["mecha_1002_101d_show/mecha_1002_101d_show_ske.json"].readString())!! }
+            val skeDeferred = async { Buffer(res["mecha_1002_101d_show/mecha_1002_101d_show_ske.dbbin"].readBytes()) }
             val texDeferred = async { res["mecha_1002_101d_show/mecha_1002_101d_show_tex.json"].readString() }
             val imgDeferred = async { res["mecha_1002_101d_show/mecha_1002_101d_show_tex.png"].readBitmap().mipmaps() }
 

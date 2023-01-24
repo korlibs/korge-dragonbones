@@ -30,11 +30,10 @@ import com.dragonbones.event.*
 import com.dragonbones.model.*
 import com.dragonbones.util.*
 import com.soywiz.kds.*
-import com.soywiz.korge.debug.*
 import com.soywiz.korge.view.*
+import com.soywiz.korge.view.property.*
 import com.soywiz.korim.color.*
 import com.soywiz.korma.geom.vector.*
-import com.soywiz.korui.*
 
 /**
  * @inheritDoc
@@ -311,14 +310,29 @@ class KorgeDbArmatureDisplay : Container(), IArmatureProxy {
 
     val animationNames get() = animation.animationNames
 
-    override fun buildDebugComponent(views: Views, container: UiContainer) {
-        container.uiCollapsibleSection("DragonBones") {
-            addChild(UiRowEditableValue(app, "animation", UiListEditableValue(app, { animationNames }, ObservableProperty(
-                name = "animation",
-                internalSet = { animationName -> animation.play(animationName) },
-                internalGet = { animation.lastAnimationName }
-            ))))
-        }
-        super.buildDebugComponent(views, container)
-    }
+	@ViewProperty
+	@ViewPropertyProvider(Provider::class)
+	var animationName: String
+		get() = animation.lastAnimationName
+		set(value) {
+			animation.play(value)
+		}
+
+	@Suppress("unused")
+	object Provider {
+		fun getItems(value: KorgeDbArmatureDisplay): List<String> {
+			return value.animationNames
+		}
+	}
+
+    //override fun buildDebugComponent(views: Views, container: UiContainer) {
+    //    container.uiCollapsibleSection("DragonBones") {
+    //        addChild(UiRowEditableValue(app, "animation", UiListEditableValue(app, { animationNames }, ObservableProperty(
+    //            name = "animation",
+    //            internalSet = { animationName -> animation.play(animationName) },
+    //            internalGet = { animation.lastAnimationName }
+    //        ))))
+    //    }
+    //    super.buildDebugComponent(views, container)
+    //}
 }
