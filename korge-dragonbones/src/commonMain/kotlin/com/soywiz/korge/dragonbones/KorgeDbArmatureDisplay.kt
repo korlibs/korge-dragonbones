@@ -29,10 +29,12 @@ import com.dragonbones.core.*
 import com.dragonbones.event.*
 import com.dragonbones.model.*
 import com.dragonbones.util.*
+import com.dragonbones.util.length
 import com.soywiz.kds.*
 import com.soywiz.korge.view.*
 import com.soywiz.korge.view.property.*
 import com.soywiz.korim.color.*
+import com.soywiz.korma.geom.*
 import com.soywiz.korma.geom.vector.*
 
 /**
@@ -114,11 +116,11 @@ class KorgeDbArmatureDisplay : Container(), IArmatureProxy {
                         val endY = startY + bone.globalTransformMatrix.bf * boneLength
 
                         stroke(Colors.PURPLE.withAd(0.7), StrokeInfo(thickness = 2.0)) {
-                            moveTo(startX.toDouble(), startY.toDouble())
-                            lineTo(endX, endY)
+                            moveTo(Point(startX, startY))
+                            lineTo(Point(endX, endY))
                         }
                         fill(Colors.PURPLE.withAd(0.7)) {
-                            circle(startX.toDouble(), startY.toDouble(), 3.0)
+                            circle(Point(startX, startY), 3f)
                         }
                     }
                 }
@@ -167,13 +169,13 @@ class KorgeDbArmatureDisplay : Container(), IArmatureProxy {
                                             val y = vertices[i + 1]
 
                                             if (i == 0) {
-                                                moveTo(x, y)
+                                                moveTo(Point(x, y))
                                             } else {
-                                                lineTo(x, y)
+                                                lineTo(Point(x, y))
                                             }
                                         }
 
-                                        lineTo(vertices[0], vertices[1])
+                                        lineTo(Point(vertices[0], vertices[1]))
                                     }
 
                                     else -> {

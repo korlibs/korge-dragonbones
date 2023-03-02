@@ -10,10 +10,10 @@ import com.soywiz.korge.scene.Scene
 import com.soywiz.korge.scene.SceneContainer
 import com.soywiz.korge.scene.sceneContainer
 import com.soywiz.korge.time.delay
+import com.soywiz.korge.ui.*
 import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.CpuGraphics
 import com.soywiz.korge.view.SContainer
-import com.soywiz.korge.view.TextOld
 import com.soywiz.korge.view.addUpdater
 import com.soywiz.korge.view.position
 import com.soywiz.korge.view.scale
@@ -26,7 +26,7 @@ import com.soywiz.korio.async.asyncImmediately
 import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korio.serialization.json.Json
-import com.soywiz.korma.geom.Point
+import com.soywiz.korma.geom.*
 import com.soywiz.korma.geom.vector.roundRect
 import com.soywiz.korma.random.get
 import kotlinx.coroutines.Deferred
@@ -58,79 +58,33 @@ class MainDragonbones : Scene() {
             this.y = views.virtualHeight.toDouble() * 0.5
         }
         buttonContainer = this
-        this += Button("Hello") {
+        uiButton("Hello").clicked {
             println("Hello")
-            disablingButtons { mySceneContainer.changeTo({ HelloWorldScene() }) }
+            launchImmediately { disablingButtons { mySceneContainer.changeTo({ HelloWorldScene() }) } }
         }.position(8, views.virtualHeight - 48)
         //this += Button("Classic") { mySceneContainer.changeToDisablingButtons<ClassicDragonScene>() }.position(108, views.virtualHeight - 48)
-        this += Button("Eye Tracking") {
+        uiButton("Eye Tracking").clicked {
             println("Eye Tracking")
-            disablingButtons { mySceneContainer.changeTo({ EyeTrackingScene() }) }
+            launchImmediately { disablingButtons { mySceneContainer.changeTo({ EyeTrackingScene() }) } }
         }.position(200, views.virtualHeight - 48)
-        this += Button("Skin Changing") {
+        uiButton("Skin Changing").clicked {
             println("Skin Changing")
-            disablingButtons { mySceneContainer.changeTo({ SkinChangingScene() }) }
+            launchImmediately { disablingButtons { mySceneContainer.changeTo({ SkinChangingScene() }) } }
         }.position(600, views.virtualHeight - 48)
     }
 
     inline fun <T> disablingButtons(block: () -> T): T {
-        for (child in buttonContainer.children.filterIsInstance<Button>()) {
+        for (child in buttonContainer.children.filterIsInstance<UIButton>()) {
             //println("DISABLE BUTTON: $child")
-            child.enabledButton = false
+            child.enabled = false
         }
         try {
             return block()
         } finally {
-            for (child in buttonContainer.children.filterIsInstance<Button>()) {
+            for (child in buttonContainer.children.filterIsInstance<UIButton>()) {
                 //println("ENABLE BUTTON: $child")
-                child.enabledButton = true
+                child.enabled = true
             }
-        }
-    }
-
-    class Button(text: String, handler: suspend () -> Unit) : Container() {
-        val textField = TextOld(text, textSize = 32.0).apply { filtering = false }
-        private val bounds = textField.textBounds
-        val g = CpuGraphics().updateShape {
-            fill(Colors.DARKGREY, 0.7) {
-                roundRect(bounds.x, bounds.y, bounds.width + 16, bounds.height + 16, 8.0, 8.0)
-            }
-        }
-
-        var enabledButton = true
-            set(value) {
-                field = value
-                updateState()
-            }
-        private var overButton = false
-            set(value) {
-                field = value
-                updateState()
-            }
-
-        fun updateState() {
-            when {
-                !enabledButton -> alpha = 0.3
-                overButton -> alpha = 1.0
-                else -> alpha = 0.8
-            }
-        }
-
-        init {
-            //this += this.solidRect(bounds.width, bounds.height, Colors.TRANSPARENT_BLACK)
-            this += g.apply {
-                mouseEnabled = true
-            }
-            this += textField.position(8, 8)
-
-            mouse {
-                over { overButton = true }
-                out { overButton = false }
-            }
-            onClick {
-                if (enabledButton) handler()
-            }
-            updateState()
         }
     }
 
@@ -238,13 +192,13 @@ class MainDragonbones : Scene() {
                 //armatureDisplay.play("idle_00")
                 armatureDisplay.animation.play("idle_00")
 
-                val target = Point()
-                val ftarget = Point()
+                val target = MPoint()
+                val ftarget = MPoint()
 
                 mouse {
                     moveAnywhere {
-                        ftarget.x = (localMouseX(views) - armatureDisplay.x) / this@EyeTrackingScene.scale
-                        ftarget.y = (localMouseY(views) - armatureDisplay.y) / this@EyeTrackingScene.scale
+                        ftarget.x = (localMousePos(views).x - armatureDisplay.x) / this@EyeTrackingScene.scale
+                        ftarget.y = (localMousePos(views).y - armatureDisplay.y) / this@EyeTrackingScene.scale
                         //println(":" + localMouseXY(views) + ", " + target + " :: ${armatureDisplay.x}, ${armatureDisplay.y} :: ${this@EyeTrackingScene.scale}")
                     }
                     exit {

@@ -240,7 +240,7 @@ abstract class Slot(pool: SingleObjectPool<out Slot>) :  TransformObject(pool) {
 	 * @internal
 	 */
 	var _pivotY: Double = 0.0
-	protected val _localMatrix: Matrix = Matrix()
+	protected val _localMatrix: MMatrix = MMatrix()
 	/**
 	 * @internal
 	 */
@@ -987,7 +987,7 @@ abstract class Slot(pool: SingleObjectPool<out Slot>) :  TransformObject(pool) {
 	 * @version DragonBones 5.0
 	 * @language zh_CN
 	 */
-	fun containsPoint(x: Double, y: Double): Boolean {
+	fun containsMPoint(x: Double, y: Double): Boolean {
 		if (this._boundingBoxData == null) {
 			return false
 		}
@@ -998,7 +998,7 @@ abstract class Slot(pool: SingleObjectPool<out Slot>) :  TransformObject(pool) {
 		_helpMatrix.invert()
 		_helpMatrix.transform(x, y, _helpPoint)
 
-		return this._boundingBoxData!!.containsPoint(_helpPoint.xf.toDouble(), _helpPoint.yf.toDouble())
+		return this._boundingBoxData!!.containsMPoint(_helpPoint.xf.toDouble(), _helpPoint.yf.toDouble())
 	}
 	/**
 	 * - Check whether a specific segment intersects a custom bounding box for the slot.
@@ -1032,9 +1032,9 @@ abstract class Slot(pool: SingleObjectPool<out Slot>) :  TransformObject(pool) {
 	 */
 	fun intersectsSegment(
 		xA: Double, yA: Double, xB: Double, yB: Double,
-		intersectionPointA: Point? = null,
-		intersectionPointB: Point? = null,
-		normalRadians: Point? = null
+		intersectionPointA: MPoint? = null,
+		intersectionPointB: MPoint? = null,
+		normalRadians: MPoint? = null
 	): Int {
 		if (this._boundingBoxData == null) {
 			return 0

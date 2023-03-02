@@ -24,9 +24,9 @@ class SingleObjectPool<T : BaseObject>(val base: BaseObjectPool, gen: (SingleObj
 
 class BaseObjectPool {
     var __hashCode = 0
-    internal val _helpMatrix: Matrix = Matrix()
+    internal val _helpMatrix: MMatrix = MMatrix()
     internal val _helpTransform: TransformDb = TransformDb()
-    internal val _helpPoint: Point = Point()
+    internal val _helpPoint: MPoint = MPoint()
 
 	val DEFAULT_COLOR: ColorTransform = ColorTransform()
 

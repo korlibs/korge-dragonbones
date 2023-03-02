@@ -25,6 +25,7 @@ package com.dragonbones.armature
 import com.dragonbones.core.*
 import com.soywiz.kds.iterators.*
 import com.dragonbones.model.*
+import com.dragonbones.util.*
 import com.soywiz.kmem.*
 import com.soywiz.korma.geom.*
 import kotlin.math.*
@@ -85,7 +86,7 @@ class Surface(pool: SingleObjectPool<out Surface>) :  Bone(pool) {
 	private fun _getAffineTransform(
         x: Float, y: Float, lX: Float, lY: Float,
         aX: Float, aY: Float, bX: Float, bY: Float, cX: Float, cY: Float,
-        transform: TransformDb, matrix: Matrix, isDown: Boolean
+        transform: TransformDb, matrix: MMatrix, isDown: Boolean
 	) {
 		val dabX = bX - aX
 		val dabY = bY - aY
@@ -191,7 +192,7 @@ class Surface(pool: SingleObjectPool<out Surface>) :  Bone(pool) {
 		_globalDirty = false
 	}
 
-	fun _getGlobalTransformMatrix(x: Float, y: Float): Matrix {
+	fun _getGlobalTransformMatrix(x: Float, y: Float): MMatrix {
 		val lA = 200f
 		val lB = 1000f
 		if (x < -lB || lB < x || y < -lB || lB < y) {
@@ -440,7 +441,7 @@ class Surface(pool: SingleObjectPool<out Surface>) :  Bone(pool) {
 	private fun setMatricesFromHelp(
 		matrices: FloatArray,
 		matrixIndex: Int,
-		helpMatrix: Matrix
+		helpMatrix: MMatrix
 	) {
 		matrices[matrixIndex] = 1f
 		matrices[matrixIndex + 1] = helpMatrix.af

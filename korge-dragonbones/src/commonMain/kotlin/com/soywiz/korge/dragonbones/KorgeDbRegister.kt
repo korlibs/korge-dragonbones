@@ -1,5 +1,6 @@
 package com.soywiz.korge.dragonbones
 
+/*
 import com.soywiz.korge.view.*
 import com.soywiz.korge.view.ktree.*
 import com.soywiz.korio.serialization.xml.*
@@ -22,3 +23,4 @@ fun Views.registerDragonBones() {
         }
     )
 }
+*/

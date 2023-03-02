@@ -150,16 +150,16 @@ abstract class TextureAtlasData(pool: SingleObjectPool<out TextureAtlasData>) : 
  */
 abstract class TextureData(pool: SingleObjectPool<out TextureData>) : BaseObject(pool) {
 	companion object {
-		fun createRectangle(): Rectangle {
-			return Rectangle()
+		fun createRectangle(): MRectangle {
+			return MRectangle()
 		}
 	}
 
 	var rotated: Boolean = false
 	var name: String = ""
-	val region: Rectangle = Rectangle()
+	val region: MRectangle = MRectangle()
 	var parent: TextureAtlasData? = null
-	var frame: Rectangle? = null // Initial value.
+	var frame: MRectangle? = null // Initial value.
 
 	override fun _onClear() {
 		this.rotated = false

@@ -23,7 +23,7 @@ class TransformDb
 	 * @version DragonBones 3.0
 	 * @language en_US
 	 */
-	override var xf: Float = 0f,
+	var xf: Float = 0f,
 	/**
 	 * - 垂直位移。
 	 * @version DragonBones 3.0
@@ -34,7 +34,7 @@ class TransformDb
 	 * @version DragonBones 3.0
 	 * @language en_US
 	 */
-	override var yf: Float = 0f,
+	var yf: Float = 0f,
 	/**
 	 * - 倾斜。 （以弧度为单位）
 	 * @version DragonBones 3.0
@@ -79,7 +79,11 @@ class TransformDb
 	 * @language en_US
 	 */
 	var scaleY: Float = 1f
-) : XYf {
+) {
+	 var point: Point
+		get() = Point(xf, yf)
+		set(value) { xf = value.x; yf = value.y }
+
 	companion object {
 		/**
 		 * @private
@@ -173,7 +177,7 @@ class TransformDb
 	/**
 	 * @private
 	 */
-	fun fromMatrix(matrix: Matrix): TransformDb {
+	fun fromMatrix(matrix: MMatrix): TransformDb {
 		val backupScaleX = this.scaleX
 		val backupScaleY = this.scaleY
 		val PI_Q = TransformDb.PI_Q
@@ -204,7 +208,7 @@ class TransformDb
 	/**
 	 * @private
 	 */
-	fun toMatrix(matrix: Matrix): TransformDb {
+	fun toMatrix(matrix: MMatrix): TransformDb {
 		if (this.rotation == 0f) {
 			matrix.af = 1f
 			matrix.bf = 0f

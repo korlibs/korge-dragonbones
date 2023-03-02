@@ -25,6 +25,7 @@ package com.soywiz.korge.dragonbones
 
 import com.dragonbones.core.*
 import com.dragonbones.model.*
+import com.dragonbones.util.*
 import com.soywiz.kds.*
 import com.soywiz.korim.bitmap.*
 import com.soywiz.korma.geom.*
@@ -85,9 +86,9 @@ class KorgeDbTextureAtlasData(pool: SingleObjectPool<KorgeDbTextureAtlasData>) :
 
 					textureData.renderTexture = BitmapSliceCompat(
 						this._renderTexture!!,
-						Rectangle(textureData.region.x, textureData.region.y, textureData.region.width, textureData.region.height),
-						Rectangle(textureData.region.x, textureData.region.y, textureData.region.width, textureData.region.height),
-						Rectangle(0.0, 0.0, textureData.region.width, textureData.region.height),
+						MRectangle(textureData.region.x, textureData.region.y, textureData.region.width, textureData.region.height),
+						MRectangle(textureData.region.x, textureData.region.y, textureData.region.width, textureData.region.height),
+						MRectangle(0.0, 0.0, textureData.region.width, textureData.region.height),
 						textureData.rotated,
 						name = k
 					)

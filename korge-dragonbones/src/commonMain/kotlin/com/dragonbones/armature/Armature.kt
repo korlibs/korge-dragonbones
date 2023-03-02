@@ -471,9 +471,9 @@ class Armature(pool: SingleObjectPool<Armature>) : BaseObject(pool), IAnimatable
 	 * @version DragonBones 5.0
 	 * @language zh_CN
 	 */
-	fun containsPoint(x: Double, y: Double): Slot? {
+	fun containsMPoint(x: Double, y: Double): Slot? {
 		this._slots.fastForEach { slot ->
-			if (slot.containsPoint(x, y)) {
+			if (slot.containsMPoint(x, y)) {
 				return slot
 			}
 		}
@@ -512,9 +512,9 @@ class Armature(pool: SingleObjectPool<Armature>) : BaseObject(pool), IAnimatable
 	 */
 	fun intersectsSegment(
 		xA: Double, yA: Double, xB: Double, yB: Double,
-		intersectionPointA: Point? = null,
-		intersectionPointB: Point? = null,
-		normalRadians: Point? = null
+		intersectionPointA: MPoint? = null,
+		intersectionPointB: MPoint? = null,
+		normalRadians: MPoint? = null
 	): Slot? {
 		val isV = xA == xB
 		var dMin = 0.0

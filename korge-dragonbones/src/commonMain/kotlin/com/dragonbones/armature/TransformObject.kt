@@ -40,9 +40,9 @@ import com.soywiz.korma.geom.*
  * @language zh_CN
  */
 abstract class TransformObject(pool: SingleObjectPool<out TransformObject>) : BaseObject(pool) {
-	internal val _helpMatrix: Matrix get() = pool._helpMatrix
+	internal val _helpMatrix: MMatrix get() = pool._helpMatrix
 	internal val _helpTransform: TransformDb get() = pool._helpTransform
-	internal val _helpPoint: Point get() = pool._helpPoint
+	internal val _helpPoint: MPoint get() = pool._helpPoint
 
 	/**
 	 * - A matrix relative to the armature coordinate system.
@@ -54,7 +54,7 @@ abstract class TransformObject(pool: SingleObjectPool<out TransformObject>) : Ba
 	 * @version DragonBones 3.0
 	 * @language zh_CN
 	 */
-	val globalTransformMatrix: Matrix = Matrix()
+	val globalTransformMatrix: MMatrix = MMatrix()
 	/**
 	 * - A transform relative to the armature coordinate system.
 	 * @see #updateGlobalTransform()

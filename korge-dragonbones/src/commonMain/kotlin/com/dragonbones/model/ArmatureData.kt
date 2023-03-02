@@ -82,7 +82,7 @@ class ArmatureData(pool: SingleObjectPool<ArmatureData>) : BaseObject(pool) {
 	/**
 	 * @private
 	 */
-	val aabb: Rectangle = Rectangle()
+	val aabb: MRectangle = MRectangle()
 	/**
 	 * - The names of all the animation data.
 	 * @version DragonBones 3.0
@@ -288,7 +288,7 @@ class ArmatureData(pool: SingleObjectPool<ArmatureData>) : BaseObject(pool) {
 	/**
 	 * @internal
 	 */
-	fun setCacheFrame(globalTransformMatrix: Matrix, transform: TransformDb): Int {
+	fun setCacheFrame(globalTransformMatrix: MMatrix, transform: TransformDb): Int {
 		val dataArray = this.parent!!.cachedFrames
 		val arrayOffset = dataArray.size
 
@@ -310,7 +310,7 @@ class ArmatureData(pool: SingleObjectPool<ArmatureData>) : BaseObject(pool) {
 	/**
 	 * @internal
 	 */
-	fun getCacheFrame(globalTransformMatrix: Matrix, transform: TransformDb, arrayOffset: Int) {
+	fun getCacheFrame(globalTransformMatrix: MMatrix, transform: TransformDb, arrayOffset: Int) {
 		val dataArray = this.parent!!.cachedFrames
 		globalTransformMatrix.af = dataArray[arrayOffset].toFloat()
 		globalTransformMatrix.bf = dataArray[arrayOffset + 1].toFloat()

@@ -99,7 +99,7 @@ class ImageDisplayData(pool: SingleObjectPool<ImageDisplayData>) :  DisplayData(
 		return "[class dragonBones.ImageDisplayData]"
 	}
 
-	val pivot: Point = Point()
+	val pivot: MPoint = MPoint()
 	var texture: TextureData? = null
 
 	override fun _onClear() {

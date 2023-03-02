@@ -163,11 +163,11 @@ open class ObjectDataParser(pool: BaseObjectPool = BaseObjectPool()) : DataParse
 	private var _prevRotation: Double = 0.0
 	private var _frameDefaultValue: Double = 0.0
 	private var _frameValueScale: Double = 1.0
-	private val _helpMatrixA: Matrix = Matrix()
-	private val _helpMatrixB: Matrix = Matrix()
+	private val _helpMatrixA: MMatrix = MMatrix()
+	private val _helpMatrixB: MMatrix = MMatrix()
 	private val _helpTransform: TransformDb = TransformDb()
 	private val _helpColorTransform: ColorTransform = ColorTransform()
-	private val _helpPoint: Point = Point()
+	private val _helpPoint: MPoint = MPoint()
 	private val _helpArray: DoubleArrayList = DoubleArrayList()
 	private val _intArray: IntArrayList = IntArrayList()
 	private val _floatArray: DoubleArrayList = DoubleArrayList()
@@ -186,7 +186,7 @@ open class ObjectDataParser(pool: BaseObjectPool = BaseObjectPool()) : DataParse
 	private val _cacheBones: LinkedHashMap<String, FastArrayList<BoneData>> = LinkedHashMap()
 	private val _slotChildActions: LinkedHashMap<String, FastArrayList<ActionData>> = LinkedHashMap()
 
-	private fun _getCurvePoint(
+	private fun _getCurveMPoint(
 		x1: Double,
 		y1: Double,
 		x2: Double,
@@ -196,7 +196,7 @@ open class ObjectDataParser(pool: BaseObjectPool = BaseObjectPool()) : DataParse
 		x4: Double,
 		y4: Double,
 		t: Double,
-		result: Point
+		result: MPoint
 	) {
 		val l_t = 1.0 - t
 		val powA = l_t * l_t
@@ -206,8 +206,8 @@ open class ObjectDataParser(pool: BaseObjectPool = BaseObjectPool()) : DataParse
 		val kC = 3.0 * l_t * powB
 		val kD = t * powB
 
-		result.xf = (kA * x1 + kB * x2 + kC * x3 + kD * x4).toFloat()
-		result.yf = (kA * y1 + kB * y2 + kC * y3 + kD * y4).toFloat()
+		result.x = (kA * x1 + kB * x2 + kC * x3 + kD * x4)
+		result.y = (kA * y1 + kB * y2 + kC * y3 + kD * y4)
 	}
 
 	private fun _samplingEasingCurve(curve: DoubleArrayList, samples: DoubleArrayList): Boolean {
@@ -236,15 +236,15 @@ open class ObjectDataParser(pool: BaseObjectPool = BaseObjectPool()) : DataParse
 				var higher = 1.0
 				while (higher - lower > 0.0001) {
 					val percentage = (higher + lower) * 0.5
-					this._getCurvePoint(x1, y1, x2, y2, x3, y3, x4, y4, percentage, this._helpPoint)
-					if (t - this._helpPoint.xf > 0.0) {
+					this._getCurveMPoint(x1, y1, x2, y2, x3, y3, x4, y4, percentage, this._helpPoint)
+					if (t - this._helpPoint.x > 0.0) {
 						lower = percentage
 					} else {
 						higher = percentage
 					}
 				}
 
-				samples[i] = this._helpPoint.yf.toDouble()
+				samples[i] = this._helpPoint.y
 			}
 
 			return true
@@ -270,15 +270,15 @@ open class ObjectDataParser(pool: BaseObjectPool = BaseObjectPool()) : DataParse
 				var higher = 1.0
 				while (higher - lower > 0.0001) {
 					val percentage = (higher + lower) * 0.5
-					this._getCurvePoint(x1, y1, x2, y2, x3, y3, x4, y4, percentage, this._helpPoint)
-					if (t - this._helpPoint.xf > 0.0) {
+					this._getCurveMPoint(x1, y1, x2, y2, x3, y3, x4, y4, percentage, this._helpPoint)
+					if (t - this._helpPoint.x > 0.0) {
 						lower = percentage
 					} else {
 						higher = percentage
 					}
 				}
 
-				samples[i] = this._helpPoint.yf.toDouble()
+				samples[i] = this._helpPoint.y
 			}
 
 			return false
@@ -805,11 +805,11 @@ open class ObjectDataParser(pool: BaseObjectPool = BaseObjectPool()) : DataParse
 	protected fun _parsePivot(rawData: Any?, display: ImageDisplayData) {
 		if (rawData.containsDynamic(DataParser.PIVOT)) {
 			val rawPivot = rawData.getDynamic(DataParser.PIVOT)
-			display.pivot.xf = ObjectDataParser._getNumber(rawPivot, DataParser.X, 0.0).toFloat()
-			display.pivot.yf = ObjectDataParser._getNumber(rawPivot, DataParser.Y, 0.0).toFloat()
+			display.pivot.x = ObjectDataParser._getNumber(rawPivot, DataParser.X, 0.0)
+			display.pivot.y = ObjectDataParser._getNumber(rawPivot, DataParser.Y, 0.0)
 		} else {
-			display.pivot.xf = 0.5f
-			display.pivot.yf = 0.5f
+			display.pivot.x = 0.5
+			display.pivot.y = 0.5
 		}
 	}
 
@@ -1891,9 +1891,10 @@ open class ObjectDataParser(pool: BaseObjectPool = BaseObjectPool()) : DataParse
 				val rawBonePoses = this._weightBonePoses[meshName]!!
 				val vertexBoneCount = this._intArray[iB++]
 
+
 				this._helpMatrixA.deltaTransformPoint(x, y, this._helpPoint)
-				x = this._helpPoint.xf
-				y = this._helpPoint.yf
+				x = this._helpPoint.x.toFloat()
+				y = this._helpPoint.y.toFloat()
 
 				//for (var j = 0; j < vertexBoneCount; ++j) {
 				for (j in 0 until vertexBoneCount) {
@@ -1902,8 +1903,8 @@ open class ObjectDataParser(pool: BaseObjectPool = BaseObjectPool()) : DataParse
 					this._helpMatrixB.invert()
 					this._helpMatrixB.deltaTransformPoint(x, y, this._helpPoint)
 
-					this._frameFloatArray[frameFloatOffset + iV++] = this._helpPoint.xf.toDouble()
-					this._frameFloatArray[frameFloatOffset + iV++] = this._helpPoint.yf.toDouble()
+					this._frameFloatArray[frameFloatOffset + iV++] = this._helpPoint.x
+					this._frameFloatArray[frameFloatOffset + iV++] = this._helpPoint.y
 				}
 			} else {
 				this._frameFloatArray[frameFloatOffset + i] = x.toDouble()
@@ -2231,8 +2232,8 @@ open class ObjectDataParser(pool: BaseObjectPool = BaseObjectPool()) : DataParse
 					var x = this._floatArray[verticesOffset + iD].toFloat()
 					var y = this._floatArray[verticesOffset + iD + 1].toFloat()
 					this._helpMatrixA.transform(x, y, this._helpPoint)
-					x = this._helpPoint.xf
-					y = this._helpPoint.yf
+					x = this._helpPoint.x.toFloat()
+					y = this._helpPoint.y.toFloat()
 
 					//for (var j = 0; j < vertexBoneCount; ++j) {
 					for (j in 0 until vertexBoneCount) {
@@ -2243,8 +2244,8 @@ open class ObjectDataParser(pool: BaseObjectPool = BaseObjectPool()) : DataParse
 						this._helpMatrixB.transform(x, y, this._helpPoint)
 						this._intArray[iB++] = boneIndex
 						this._floatArray[iV++] = rawWeights[iW++]
-						this._floatArray[iV++] = this._helpPoint.xf.toDouble()
-						this._floatArray[iV++] = this._helpPoint.yf.toDouble()
+						this._floatArray[iV++] = this._helpPoint.x
+						this._floatArray[iV++] = this._helpPoint.y
 					}
 				}
 			} else {

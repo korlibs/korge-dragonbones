@@ -23,6 +23,7 @@
 package com.dragonbones.model
 
 import com.dragonbones.core.*
+import com.dragonbones.util.*
 import com.soywiz.korma.geom.*
 import kotlin.math.*
 
@@ -82,7 +83,7 @@ abstract class BoundingBoxData(pool: SingleObjectPool<out BoundingBoxData>) : Ba
 	 * @version DragonBones 5.0
 	 * @language zh_CN
 	 */
-	abstract fun containsPoint(pX: Double, pY: Double): Boolean
+	abstract fun containsMPoint(pX: Double, pY: Double): Boolean
 	/**
 	 * - Check whether the bounding box intersects a specific segment. (Local coordinate system)
 	 * @version DragonBones 5.0
@@ -95,9 +96,9 @@ abstract class BoundingBoxData(pool: SingleObjectPool<out BoundingBoxData>) : Ba
 	 */
 	abstract fun intersectsSegment(
 		xA: Double, yA: Double, xB: Double, yB: Double,
-		intersectionPointA: Point? = null,
-		intersectionPointB: Point? = null,
-		normalRadians: Point? = null
+		intersectionPointA: MPoint? = null,
+		intersectionPointB: MPoint? = null,
+		normalRadians: MPoint? = null
 	): Int
 }
 
@@ -169,12 +170,9 @@ class RectangleBoundingBoxData(pool: SingleObjectPool<RectangleBoundingBoxData>)
 		fun rectangleIntersectsSegment(
 			xA: Double, yA: Double, xB: Double, yB: Double,
 			xMin: Double, yMin: Double, xMax: Double, yMax: Double,
-			intersectionPointA:
-			Point? = null,
-			intersectionPointB:
-			Point? = null,
-			normalRadians:
-			Point? = null
+			intersectionPointA: MPoint? = null,
+			intersectionPointB: MPoint? = null,
+			normalRadians: MPoint? = null
 		): Int {
 			var xA = xA
 			var yA = yA
@@ -326,7 +324,7 @@ class RectangleBoundingBoxData(pool: SingleObjectPool<RectangleBoundingBoxData>)
 	/**
 	 * @inheritDoc
 	 */
-	override fun containsPoint(pX: Double, pY: Double): Boolean {
+	override fun containsMPoint(pX: Double, pY: Double): Boolean {
 		val widthH = this.width * 0.5
 		if (pX >= -widthH && pX <= widthH) {
 			val heightH = this.height * 0.5
@@ -343,9 +341,9 @@ class RectangleBoundingBoxData(pool: SingleObjectPool<RectangleBoundingBoxData>)
 	 */
 	override fun intersectsSegment(
 		xA: Double, yA: Double, xB: Double, yB: Double,
-		intersectionPointA: Point?,
-		intersectionPointB: Point?,
-		normalRadians: Point?
+		intersectionPointA: MPoint?,
+		intersectionPointB: MPoint?,
+		normalRadians: MPoint?
 	): Int {
 		val widthH = this.width * 0.5
 		val heightH = this.height * 0.5
@@ -380,9 +378,9 @@ class EllipseBoundingBoxData(pool: SingleObjectPool<EllipseBoundingBoxData>) : B
 		fun ellipseIntersectsSegment(
 			xA: Double, yA: Double, xB: Double, yB: Double,
 			xC: Double, yC: Double, widthH: Double, heightH: Double,
-			intersectionPointA: Point? = null,
-			intersectionPointB: Point? = null,
-			normalRadians: Point? = null
+			intersectionPointA: MPoint? = null,
+			intersectionPointB: MPoint? = null,
+			normalRadians: MPoint? = null
 		): Int {
 			var xA = xA
 			var xB = xB
@@ -492,7 +490,7 @@ class EllipseBoundingBoxData(pool: SingleObjectPool<EllipseBoundingBoxData>) : B
 	/**
 	 * @inheritDoc
 	 */
-	override fun containsPoint(pX: Double, pY: Double): Boolean {
+	override fun containsMPoint(pX: Double, pY: Double): Boolean {
 		var pY = pY
 		val widthH = this.width * 0.5
 		if (pX >= -widthH && pX <= widthH) {
@@ -511,9 +509,9 @@ class EllipseBoundingBoxData(pool: SingleObjectPool<EllipseBoundingBoxData>) : B
 	 */
 	override fun intersectsSegment(
 		xA: Double, yA: Double, xB: Double, yB: Double,
-		intersectionPointA: Point?,
-		intersectionPointB: Point?,
-		normalRadians: Point?
+		intersectionPointA: MPoint?,
+		intersectionPointB: MPoint?,
+		normalRadians: MPoint?
 	): Int {
 		val intersectionCount = EllipseBoundingBoxData.ellipseIntersectsSegment(
 			xA, yA, xB, yB,
@@ -545,9 +543,9 @@ class PolygonBoundingBoxData(pool: SingleObjectPool<PolygonBoundingBoxData>) : B
 	fun polygonIntersectsSegment(
 		xA: Double, yA: Double, xB: Double, yB: Double,
 		vertices: DoubleArray,
-		intersectionPointA: Point? = null,
-		intersectionPointB: Point? = null,
-		normalRadians: Point? = null
+		intersectionPointA: MPoint? = null,
+		intersectionPointB: MPoint? = null,
+		normalRadians: MPoint? = null
 	): Int {
 		var xA = xA
 		var yA = yA
@@ -713,7 +711,7 @@ class PolygonBoundingBoxData(pool: SingleObjectPool<PolygonBoundingBoxData>) : B
 	/**
 	 * @inheritDoc
 	 */
-	override fun containsPoint(pX: Double, pY: Double): Boolean {
+	override fun containsMPoint(pX: Double, pY: Double): Boolean {
 		var isInSide = false
 		if (pX >= this.x && pX <= this.width && pY >= this.y && pY <= this.height) {
 			var iP = this.vertices.size - 2
@@ -740,9 +738,9 @@ class PolygonBoundingBoxData(pool: SingleObjectPool<PolygonBoundingBoxData>) : B
 	 */
 	override fun intersectsSegment(
 		xA: Double, yA: Double, xB: Double, yB: Double,
-		intersectionPointA: Point?,
-		intersectionPointB: Point?,
-		normalRadians: Point?
+		intersectionPointA: MPoint?,
+		intersectionPointB: MPoint?,
+		normalRadians: MPoint?
 	): Int {
 		var intersectionCount = 0
 		if (RectangleBoundingBoxData.rectangleIntersectsSegment(
