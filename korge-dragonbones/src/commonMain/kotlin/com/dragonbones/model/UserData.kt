@@ -25,7 +25,7 @@ package com.dragonbones.model
 
 import com.dragonbones.core.*
 import com.dragonbones.util.*
-import com.soywiz.kds.*
+import korlibs.datastructure.*
 
 /**
  * - The user custom data.

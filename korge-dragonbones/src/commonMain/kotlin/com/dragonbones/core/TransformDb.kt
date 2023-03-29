@@ -1,6 +1,6 @@
 package com.dragonbones.core
 
-import com.soywiz.korma.geom.*
+import korlibs.math.geom.*
 import kotlin.math.*
 
 /**

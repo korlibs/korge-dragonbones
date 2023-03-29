@@ -24,9 +24,9 @@ package com.dragonbones.model
 
 import com.dragonbones.core.*
 import com.dragonbones.util.*
-import com.soywiz.kds.*
-import com.soywiz.klogger.*
-import com.soywiz.kmem.*
+import korlibs.datastructure.*
+import korlibs.logger.*
+import korlibs.memory.*
 
 /**
  * - The DragonBones data.

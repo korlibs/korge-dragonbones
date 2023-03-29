@@ -1,11 +1,11 @@
 package com.dragonbones.parser
 
-import com.soywiz.korge.dragonbones.*
-import com.soywiz.korge.view.*
-import com.soywiz.korim.format.*
-import com.soywiz.korio.async.*
-import com.soywiz.korio.file.std.*
-import com.soywiz.korio.serialization.json.*
+import korlibs.korge.dragonbones.*
+import korlibs.korge.view.*
+import korlibs.image.format.*
+import korlibs.io.async.*
+import korlibs.io.file.std.*
+import korlibs.io.serialization.json.*
 import doIOTest
 import kotlin.test.*
 

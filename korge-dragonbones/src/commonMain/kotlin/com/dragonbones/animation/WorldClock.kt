@@ -1,9 +1,9 @@
 package com.dragonbones.animation
 
-import com.soywiz.kds.iterators.*
+import korlibs.datastructure.iterators.*
 import com.dragonbones.util.*
-import com.soywiz.kds.*
-import com.soywiz.klock.*
+import korlibs.datastructure.*
+import korlibs.time.*
 
 /**
  * The MIT License (MIT)

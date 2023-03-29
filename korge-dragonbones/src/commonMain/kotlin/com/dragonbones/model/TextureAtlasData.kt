@@ -23,9 +23,9 @@
 package com.dragonbones.model
 
 import com.dragonbones.core.*
-import com.soywiz.kds.*
-import com.soywiz.klogger.*
-import com.soywiz.korma.geom.*
+import korlibs.datastructure.*
+import korlibs.logger.*
+import korlibs.math.geom.*
 
 /**
  * - The texture atlas data.

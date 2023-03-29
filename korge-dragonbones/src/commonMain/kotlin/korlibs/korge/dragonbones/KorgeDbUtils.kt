@@ -1,12 +1,12 @@
-package com.soywiz.korge.dragonbones
+package korlibs.korge.dragonbones
 
 import com.dragonbones.model.*
-import com.soywiz.kmem.*
-import com.soywiz.korim.bitmap.*
-import com.soywiz.korim.format.*
-import com.soywiz.korio.dynamic.*
-import com.soywiz.korio.file.*
-import com.soywiz.korio.serialization.json.*
+import korlibs.memory.*
+import korlibs.image.bitmap.*
+import korlibs.image.format.*
+import korlibs.io.dynamic.*
+import korlibs.io.file.*
+import korlibs.io.serialization.json.*
 
 suspend fun VfsFile.readDbAtlas(factory: KorgeDbFactory): TextureAtlasData? {
 	val jsonFile = this

@@ -4,10 +4,10 @@ import com.dragonbones.animation.*
 import com.dragonbones.armature.*
 import com.dragonbones.event.*
 import com.dragonbones.model.*
-import com.soywiz.kds.*
-import com.soywiz.korge.dragonbones.*
-import com.soywiz.korim.color.*
-import com.soywiz.korma.geom.*
+import korlibs.datastructure.*
+import korlibs.korge.dragonbones.*
+import korlibs.image.color.*
+import korlibs.math.geom.*
 
 class SingleObjectPool<T : BaseObject>(val base: BaseObjectPool, gen: (SingleObjectPool<T>) -> T) {
     private val pool = Pool { gen(this) }

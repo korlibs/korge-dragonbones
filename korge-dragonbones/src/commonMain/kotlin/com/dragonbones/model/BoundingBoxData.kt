@@ -24,7 +24,7 @@ package com.dragonbones.model
 
 import com.dragonbones.core.*
 import com.dragonbones.util.*
-import com.soywiz.korma.geom.*
+import korlibs.math.geom.*
 import kotlin.math.*
 
 /**

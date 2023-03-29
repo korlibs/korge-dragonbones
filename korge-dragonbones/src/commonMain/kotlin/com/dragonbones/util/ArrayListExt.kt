@@ -1,6 +1,6 @@
 package com.dragonbones.util
 
-import com.soywiz.kds.*
+import korlibs.datastructure.*
 
 internal var IntArrayList.lengthSet: Int
 	get() = size

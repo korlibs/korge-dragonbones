@@ -1,8 +1,8 @@
 package com.dragonbones.parser
 
-import com.soywiz.korge.dragonbones.*
-import com.soywiz.korio.async.*
-import com.soywiz.korio.file.std.*
+import korlibs.korge.dragonbones.*
+import korlibs.io.async.*
+import korlibs.io.file.std.*
 import doIOTest
 import kotlin.test.*
 

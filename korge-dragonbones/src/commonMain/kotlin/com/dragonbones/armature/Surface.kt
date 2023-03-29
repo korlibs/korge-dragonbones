@@ -23,11 +23,11 @@
 package com.dragonbones.armature
 
 import com.dragonbones.core.*
-import com.soywiz.kds.iterators.*
+import korlibs.datastructure.iterators.*
 import com.dragonbones.model.*
 import com.dragonbones.util.*
-import com.soywiz.kmem.*
-import com.soywiz.korma.geom.*
+import korlibs.memory.*
+import korlibs.math.geom.*
 import kotlin.math.*
 
 /**

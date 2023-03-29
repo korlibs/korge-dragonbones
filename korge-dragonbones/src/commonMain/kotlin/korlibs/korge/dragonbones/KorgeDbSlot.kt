@@ -21,18 +21,18 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.soywiz.korge.dragonbones
+package korlibs.korge.dragonbones
 
 import com.dragonbones.armature.*
 import com.dragonbones.core.*
 import com.dragonbones.model.*
 import com.dragonbones.util.*
-import com.soywiz.kmem.*
-import com.soywiz.korge.view.*
-import com.soywiz.korge.view.BlendMode
-import com.soywiz.korim.bitmap.*
-import com.soywiz.korim.color.*
-import com.soywiz.korma.geom.*
+import korlibs.memory.*
+import korlibs.korge.view.*
+import korlibs.korge.view.BlendMode
+import korlibs.image.bitmap.*
+import korlibs.image.color.*
+import korlibs.math.geom.*
 import kotlin.math.*
 
 /**
@@ -387,6 +387,6 @@ class KorgeDbSlot(pool: SingleObjectPool<KorgeDbSlot>) : Slot(pool) {
 
 	override fun _identityTransform() {
 		m.identity()
-		this._renderDisplay?.setMatrix(m)
+		this._renderDisplay?.setMatrix(m.immutable)
 	}
 }

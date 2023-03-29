@@ -1,8 +1,8 @@
-package com.soywiz.korge.dragonbones
+package korlibs.korge.dragonbones
 
-import com.soywiz.korge.render.*
-import com.soywiz.korge.view.*
-import com.soywiz.korio.file.*
+import korlibs.korge.render.*
+import korlibs.korge.view.*
+import korlibs.io.file.*
 
 class KorgeDbRef() : Container(), ViewLeaf, ViewFileRef by ViewFileRef.Mixin() {
     override suspend fun forceLoadSourceFile(views: Views, currentVfs: VfsFile, sourceFile: String?) {

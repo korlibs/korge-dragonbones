@@ -26,10 +26,10 @@ package com.dragonbones.animation
 import com.dragonbones.armature.*
 import com.dragonbones.core.*
 import com.dragonbones.event.*
-import com.soywiz.kds.iterators.*
+import korlibs.datastructure.iterators.*
 import com.dragonbones.model.*
 import com.dragonbones.util.*
-import com.soywiz.kds.*
+import korlibs.datastructure.*
 import kotlin.math.*
 
 /**

@@ -25,7 +25,7 @@
 package com.dragonbones.armature
 
 import com.dragonbones.core.*
-import com.soywiz.korma.geom.*
+import korlibs.math.geom.*
 
 /**
  * - The base class of the transform object.
