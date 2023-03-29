@@ -29,8 +29,8 @@ package com.dragonbones.animation
 import com.dragonbones.armature.*
 import com.dragonbones.core.*
 import com.dragonbones.model.*
-import com.soywiz.kds.*
-import com.soywiz.kmem.*
+import korlibs.datastructure.*
+import korlibs.memory.*
 import kotlin.math.*
 
 abstract class TimelineState(pool: SingleObjectPool<out TimelineState>) : BaseObject(pool) {

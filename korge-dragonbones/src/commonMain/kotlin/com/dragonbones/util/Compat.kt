@@ -1,7 +1,7 @@
 package com.dragonbones.util
 
-import com.soywiz.korim.bitmap.*
-import com.soywiz.korma.geom.*
+import korlibs.image.bitmap.*
+import korlibs.math.geom.*
 
 internal var MPoint.xf: Float
     get() = this.x.toFloat()
@@ -29,4 +29,4 @@ fun <T : Bitmap> T.sliceWithSize(
     rect: MRectangleInt,
     name: String? = null,
     imageOrientation: ImageOrientation = ImageOrientation.ORIGINAL
-): BitmapSlice<T> = slice(MRectangleInt(rect.x, rect.y, rect.width, rect.height), name, imageOrientation)
+): BitmapSlice<T> = slice(RectangleInt(rect.x, rect.y, rect.width, rect.height), name, imageOrientation)

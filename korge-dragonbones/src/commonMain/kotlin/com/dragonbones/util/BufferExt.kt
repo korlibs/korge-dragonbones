@@ -1,6 +1,6 @@
 package com.dragonbones.util
 
-import com.soywiz.kmem.*
+import korlibs.memory.*
 
 internal fun Int16Buffer.toFloat(): Float32Buffer {
 	val out = Float32Buffer(this.size)

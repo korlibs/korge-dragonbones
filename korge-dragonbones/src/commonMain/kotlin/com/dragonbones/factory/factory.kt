@@ -31,10 +31,10 @@ import com.dragonbones.event.*
 import com.dragonbones.model.*
 import com.dragonbones.parser.*
 import com.dragonbones.util.*
-import com.soywiz.kds.*
-import com.soywiz.kds.iterators.*
-import com.soywiz.klogger.*
-import com.soywiz.kmem.*
+import korlibs.datastructure.*
+import korlibs.datastructure.iterators.*
+import korlibs.logger.*
+import korlibs.memory.*
 
 /**
  * - Base class for the factory that create the armatures. (Typically only one global factory instance is required)

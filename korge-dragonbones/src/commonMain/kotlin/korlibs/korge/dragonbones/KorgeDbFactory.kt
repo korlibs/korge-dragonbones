@@ -21,22 +21,22 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.soywiz.korge.dragonbones
+package korlibs.korge.dragonbones
 
 import com.dragonbones.armature.*
 import com.dragonbones.core.*
 import com.dragonbones.factory.*
 import com.dragonbones.model.*
 import com.dragonbones.parser.*
-import com.soywiz.kds.*
-import com.soywiz.klock.*
-import com.soywiz.korge.view.*
-import com.soywiz.korim.bitmap.*
-import com.soywiz.korim.format.*
-import com.soywiz.korio.async.*
-import com.soywiz.korio.dynamic.*
-import com.soywiz.korio.file.*
-import com.soywiz.korio.serialization.json.*
+import korlibs.datastructure.*
+import korlibs.time.*
+import korlibs.korge.view.*
+import korlibs.image.bitmap.*
+import korlibs.image.format.*
+import korlibs.io.async.*
+import korlibs.io.dynamic.*
+import korlibs.io.file.*
+import korlibs.io.serialization.json.*
 import kotlinx.coroutines.*
 import kotlin.coroutines.*
 import kotlin.native.concurrent.ThreadLocal

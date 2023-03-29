@@ -1,9 +1,9 @@
-package com.soywiz.korge.dragonbones
+package korlibs.korge.dragonbones
 
 /*
-import com.soywiz.korge.view.*
-import com.soywiz.korge.view.ktree.*
-import com.soywiz.korio.serialization.xml.*
+import korlibs.korge.view.*
+import korlibs.korge.view.ktree.*
+import korlibs.io.serialization.xml.*
 
 @Deprecated("KTree is going to be removed in a future version")
 fun Views.registerDragonBones() {

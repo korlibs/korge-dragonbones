@@ -24,8 +24,8 @@ package com.dragonbones.armature
 
 import com.dragonbones.core.*
 import com.dragonbones.model.*
-import com.soywiz.kds.*
-import com.soywiz.kds.iterators.*
+import korlibs.datastructure.*
+import korlibs.datastructure.iterators.*
 import kotlin.math.*
 
 /**

@@ -21,21 +21,20 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.soywiz.korge.dragonbones
+package korlibs.korge.dragonbones
 
 import com.dragonbones.animation.*
 import com.dragonbones.armature.*
 import com.dragonbones.core.*
 import com.dragonbones.event.*
 import com.dragonbones.model.*
-import com.dragonbones.util.*
 import com.dragonbones.util.length
-import com.soywiz.kds.*
-import com.soywiz.korge.view.*
-import com.soywiz.korge.view.property.*
-import com.soywiz.korim.color.*
-import com.soywiz.korma.geom.*
-import com.soywiz.korma.geom.vector.*
+import korlibs.datastructure.*
+import korlibs.korge.view.*
+import korlibs.korge.view.property.*
+import korlibs.image.color.*
+import korlibs.math.geom.*
+import korlibs.math.geom.vector.*
 
 /**
  * @inheritDoc
@@ -189,7 +188,7 @@ class KorgeDbArmatureDisplay : Container(), IArmatureProxy {
 
 						val transform = slot.global
 						//println("SET TRANSFORM: $transform")
-						child.setMatrix(slot.globalTransformMatrix)
+						child.setMatrix(slot.globalTransformMatrix.immutable)
 					} else {
 						val child = this._debugDrawer?.getChildByName(slot.name)
 						if (child != null) {

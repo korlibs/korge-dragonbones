@@ -23,8 +23,8 @@
 package com.dragonbones.model
 
 import com.dragonbones.core.*
-import com.soywiz.kds.*
-import com.soywiz.kds.iterators.*
+import korlibs.datastructure.*
+import korlibs.datastructure.iterators.*
 
 /**
  * - The skin data, typically a armature data instance contains at least one skinData.

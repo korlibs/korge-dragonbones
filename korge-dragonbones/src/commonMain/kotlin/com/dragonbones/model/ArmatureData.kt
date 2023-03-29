@@ -23,12 +23,12 @@
 package com.dragonbones.model
 
 import com.dragonbones.core.*
-import com.soywiz.kds.iterators.*
+import korlibs.datastructure.iterators.*
 import com.dragonbones.util.*
-import com.soywiz.kds.*
-import com.soywiz.klogger.*
-import com.soywiz.korim.color.*
-import com.soywiz.korma.geom.*
+import korlibs.datastructure.*
+import korlibs.logger.*
+import korlibs.image.color.*
+import korlibs.math.geom.*
 
 /**
  * - The armature data.

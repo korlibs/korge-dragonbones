@@ -21,14 +21,14 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.soywiz.korge.dragonbones
+package korlibs.korge.dragonbones
 
 import com.dragonbones.core.*
 import com.dragonbones.model.*
 import com.dragonbones.util.*
-import com.soywiz.kds.*
-import com.soywiz.korim.bitmap.*
-import com.soywiz.korma.geom.*
+import korlibs.datastructure.*
+import korlibs.image.bitmap.*
+import korlibs.math.geom.*
 
 /**
  * - The Dragonbones texture atlas data.

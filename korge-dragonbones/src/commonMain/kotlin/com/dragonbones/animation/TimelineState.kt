@@ -26,7 +26,7 @@ import com.dragonbones.armature.*
 import com.dragonbones.core.*
 import com.dragonbones.event.*
 import com.dragonbones.model.*
-import com.soywiz.kmem.*
+import korlibs.memory.*
 import kotlin.math.*
 
 /**
