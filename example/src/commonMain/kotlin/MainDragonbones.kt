@@ -31,7 +31,7 @@ class MainDragonbones : Scene() {
     lateinit var mySceneContainer: SceneContainer
 
     override suspend fun SContainer.sceneMain() {
-        scale = 0.9
+        scaleAvg = 0.9f
         //delay(1000.milliseconds)
         //mySceneContainer.changeToDisablingButtons<HelloWorldScene>()
         disablingButtons { mySceneContainer.changeTo({ EyeTrackingScene() }) }
@@ -43,8 +43,8 @@ class MainDragonbones : Scene() {
         //}
 
         mySceneContainer = sceneContainer(views) {
-            this.x = views.virtualWidth.toDouble() * 0.5
-            this.y = views.virtualHeight.toDouble() * 0.5
+            this.x = views.virtualWidth.toFloat() * .5f
+            this.y = views.virtualHeight.toFloat() * .5f
         }
         buttonContainer = this
         uiButton("Hello").clicked {

@@ -128,7 +128,7 @@ class KorgeDbSlot(pool: SingleObjectPool<KorgeDbSlot>) : Slot(pool) {
 	}
 
 	override fun _updateColor() {
-		val alpha = this._colorTransform.alphaMultiplier * this._globalAlpha
+		val alpha = this._colorTransform.alphaMultiplier.toFloat() * this._globalAlpha.toFloat()
 		//this._renderDisplay?.alpha = alpha
 		//this._renderDisplay?.alpha = 1.0
 
@@ -247,15 +247,13 @@ class KorgeDbSlot(pool: SingleObjectPool<KorgeDbSlot>) : Slot(pool) {
 			val meshDisplay = this._renderDisplay as Mesh
 			//meshDisplay.texture = null as any
 			meshDisplay.texture = null
-			meshDisplay.x = 0.0
-			meshDisplay.y = 0.0
+			meshDisplay.pos = Point.ZERO
 			meshDisplay.visible = false
 		} else {
 			val normalDisplay = this._renderDisplay as Image
 			//normalDisplay.bitmap = null as any
 			normalDisplay.bitmap = Bitmaps.transparent
-			normalDisplay.x = 0.0
-			normalDisplay.y = 0.0
+			normalDisplay.pos = Point.ZERO
 			normalDisplay.visible = false
 		}
 	}

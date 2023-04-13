@@ -114,11 +114,11 @@ class KorgeDbArmatureDisplay : Container(), IArmatureProxy {
                         val endX = startX + bone.globalTransformMatrix.af * boneLength
                         val endY = startY + bone.globalTransformMatrix.bf * boneLength
 
-                        stroke(Colors.PURPLE.withAd(0.7), StrokeInfo(thickness = 2.0)) {
+                        stroke(Colors.PURPLE.withAf(0.7f), StrokeInfo(thickness = 2f)) {
                             moveTo(Point(startX, startY))
                             lineTo(Point(endX, endY))
                         }
-                        fill(Colors.PURPLE.withAd(0.7)) {
+                        fill(Colors.PURPLE.withAf(0.7f)) {
                             circle(Point(startX, startY), 3f)
                         }
                     }
@@ -139,7 +139,7 @@ class KorgeDbArmatureDisplay : Container(), IArmatureProxy {
 						}
 
                         child.updateShape {
-                            stroke(Colors.RED.withAd(0.7), StrokeInfo(thickness = 2.0)) {
+                            stroke(Colors.RED.withAd(0.7), StrokeInfo(thickness = 2f)) {
 
                                 when (boundingBoxData.type) {
                                     BoundingBoxType.Rectangle -> {
