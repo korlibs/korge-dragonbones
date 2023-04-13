@@ -2131,10 +2131,10 @@ open class ObjectDataParser(pool: BaseObjectPool = BaseObjectPool()) : DataParse
 	}
 
 	protected fun _parseColorTransform(rawData: Any?, color: ColorTransform) {
-		color.alphaMultiplier = ObjectDataParser._getNumber(rawData, DataParser.ALPHA_MULTIPLIER, 100.0) * 0.01
-		color.redMultiplier = ObjectDataParser._getNumber(rawData, DataParser.RED_MULTIPLIER, 100.0) * 0.01
-		color.greenMultiplier = ObjectDataParser._getNumber(rawData, DataParser.GREEN_MULTIPLIER, 100.0) * 0.01
-		color.blueMultiplier = ObjectDataParser._getNumber(rawData, DataParser.BLUE_MULTIPLIER, 100.0) * 0.01
+		color.alphaMultiplier = (ObjectDataParser._getNumber(rawData, DataParser.ALPHA_MULTIPLIER, 100.0) * 0.01).toFloat()
+		color.redMultiplier = (ObjectDataParser._getNumber(rawData, DataParser.RED_MULTIPLIER, 100.0) * 0.01).toFloat()
+		color.greenMultiplier = (ObjectDataParser._getNumber(rawData, DataParser.GREEN_MULTIPLIER, 100.0) * 0.01).toFloat()
+		color.blueMultiplier = (ObjectDataParser._getNumber(rawData, DataParser.BLUE_MULTIPLIER, 100.0) * 0.01).toFloat()
 		color.alphaOffset = ObjectDataParser._getInt(rawData, DataParser.ALPHA_OFFSET, 0)
 		color.redOffset = ObjectDataParser._getInt(rawData, DataParser.RED_OFFSET, 0)
 		color.greenOffset = ObjectDataParser._getInt(rawData, DataParser.GREEN_OFFSET, 0)

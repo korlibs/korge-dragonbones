@@ -741,10 +741,10 @@ class SlotColorTimelineState(pool: SingleObjectPool<SlotColorTimelineState>) : T
 		} else { // Pose.
 			val slot = this.targetSlot!!
 			val color = slot.slotData.color!!
-			this._result[0] = color.alphaMultiplier
-			this._result[1] = color.redMultiplier
-			this._result[2] = color.greenMultiplier
-			this._result[3] = color.blueMultiplier
+			this._result[0] = color.alphaMultiplier.toDouble()
+			this._result[1] = color.redMultiplier.toDouble()
+			this._result[2] = color.greenMultiplier.toDouble()
+			this._result[3] = color.blueMultiplier.toDouble()
 			this._result[4] = color.alphaOffset.toDouble()
 			this._result[5] = color.redOffset.toDouble()
 			this._result[6] = color.greenOffset.toDouble()
@@ -780,20 +780,20 @@ class SlotColorTimelineState(pool: SingleObjectPool<SlotColorTimelineState>) : T
 
 			if (this._animationState!!._fadeState != 0 || this._animationState!!._subFadeState != 0) {
 				if (
-					result.alphaMultiplier != this._result[0] ||
-					result.redMultiplier != this._result[1] ||
-					result.greenMultiplier != this._result[2] ||
-					result.blueMultiplier != this._result[3] ||
+					result.alphaMultiplier != this._result[0].toFloat() ||
+					result.redMultiplier != this._result[1].toFloat() ||
+					result.greenMultiplier != this._result[2].toFloat() ||
+					result.blueMultiplier != this._result[3].toFloat() ||
 					result.alphaOffset != this._result[4].toInt() ||
 					result.redOffset != this._result[5].toInt() ||
 					result.greenOffset != this._result[6].toInt() ||
 					result.blueOffset != this._result[7].toInt()
 				) {
 					val fadeProgress = this._animationState!!._fadeProgress.pow(4.0)
-					result.alphaMultiplier += (this._result[0] - result.alphaMultiplier) * fadeProgress
-					result.redMultiplier += (this._result[1] - result.redMultiplier) * fadeProgress
-					result.greenMultiplier += (this._result[2] - result.greenMultiplier) * fadeProgress
-					result.blueMultiplier += (this._result[3] - result.blueMultiplier) * fadeProgress
+					result.alphaMultiplier += ((this._result[0] - result.alphaMultiplier) * fadeProgress).toFloat()
+					result.redMultiplier += ((this._result[1] - result.redMultiplier) * fadeProgress).toFloat()
+					result.greenMultiplier += ((this._result[2] - result.greenMultiplier) * fadeProgress).toFloat()
+					result.blueMultiplier += ((this._result[3] - result.blueMultiplier) * fadeProgress).toFloat()
 					result.alphaOffset += ((this._result[4] - result.alphaOffset) * fadeProgress).toInt()
 					result.redOffset += ((this._result[5] - result.redOffset) * fadeProgress).toInt()
 					result.greenOffset += ((this._result[6] - result.greenOffset) * fadeProgress).toInt()
@@ -804,19 +804,19 @@ class SlotColorTimelineState(pool: SingleObjectPool<SlotColorTimelineState>) : T
 				this.dirty = false
 
 				if (
-					result.alphaMultiplier != this._result[0] ||
-					result.redMultiplier != this._result[1] ||
-					result.greenMultiplier != this._result[2] ||
-					result.blueMultiplier != this._result[3] ||
+					result.alphaMultiplier != this._result[0].toFloat() ||
+					result.redMultiplier != this._result[1].toFloat() ||
+					result.greenMultiplier != this._result[2].toFloat() ||
+					result.blueMultiplier != this._result[3].toFloat() ||
 					result.alphaOffset != this._result[4].toInt() ||
 					result.redOffset != this._result[5].toInt() ||
 					result.greenOffset != this._result[6].toInt() ||
 					result.blueOffset != this._result[7].toInt()
 				) {
-					result.alphaMultiplier = this._result[0]
-					result.redMultiplier = this._result[1]
-					result.greenMultiplier = this._result[2]
-					result.blueMultiplier = this._result[3]
+					result.alphaMultiplier = this._result[0].toFloat()
+					result.redMultiplier = this._result[1].toFloat()
+					result.greenMultiplier = this._result[2].toFloat()
+					result.blueMultiplier = this._result[3].toFloat()
 					result.alphaOffset = this._result[4].toInt()
 					result.redOffset = this._result[5].toInt()
 					result.greenOffset = this._result[6].toInt()
