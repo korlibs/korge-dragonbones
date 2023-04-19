@@ -8,9 +8,18 @@ By using kproject:
 
 ### `deps.kproject.yml`
 
+Tag:
+
 ```kotlin
 dependencies:
-  - git::korge-dragonbones::korlibs/korge-dragonbones::/korge-dragonbones::da64d67195a7703a589d58f93cadfa3e00232685
+  - git::korge-dragonbones::korlibs/korge-dragonbones::/korge-dragonbones::v0.0.3
+```
+
+Deterministic and safer version:
+
+```kotlin
+dependencies:
+  - git::korge-dragonbones::korlibs/korge-dragonbones::/korge-dragonbones::d6e5475a8f40f785a6a9c5699cebea5abe9eaff7
 ```
 
 ## Example
