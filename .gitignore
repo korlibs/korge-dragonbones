@@ -1,1 +1,11 @@
+/.gradle
+/.idea
+/build
+/deps
+/modules
+/src/main
+/src/androidMain
+/korge.keystore
+/local.properties
 .DS_Store
+
