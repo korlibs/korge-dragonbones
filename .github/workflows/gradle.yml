@@ -29,7 +29,7 @@ jobs:
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
-        build-root-directory: example
+        build-root-directory: .
         arguments: jvmTest jvmJar
   build-windows:
     runs-on: windows-latest
@@ -43,5 +43,5 @@ jobs:
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
-        build-root-directory: example
+        build-root-directory: .
         arguments: jvmTest jvmJar
