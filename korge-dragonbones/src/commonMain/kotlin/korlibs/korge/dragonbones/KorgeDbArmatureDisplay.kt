@@ -320,11 +320,9 @@ class KorgeDbArmatureDisplay : Container(), IArmatureProxy {
 		}
 
 	@Suppress("unused")
-	object Provider {
-		fun getItems(value: KorgeDbArmatureDisplay): List<String> {
-			return value.animationNames
-		}
-	}
+	object Provider : ViewPropertyProvider.ListImpl<KorgeDbArmatureDisplay, String>() {
+        override fun listProvider(instance: KorgeDbArmatureDisplay): List<String> = instance.animationNames
+    }
 
     //override fun buildDebugComponent(views: Views, container: UiContainer) {
     //    container.uiCollapsibleSection("DragonBones") {
