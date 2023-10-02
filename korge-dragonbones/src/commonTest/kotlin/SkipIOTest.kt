@@ -1,5 +1,4 @@
-import korlibs.io.util.*
-import korlibs.memory.Platform
+import korlibs.platform.*
 
 //val skipIOTest get() = OS.isJsBrowser
 val skipIOTest get() = Platform.isJs || Platform.isAndroid
