@@ -35,6 +35,7 @@ import korlibs.korge.view.property.*
 import korlibs.image.color.*
 import korlibs.math.geom.*
 import korlibs.math.geom.vector.*
+import korlibs.time.*
 
 /**
  * @inheritDoc
