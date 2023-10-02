@@ -82,7 +82,7 @@ class TransformDb
 ) {
 	 var point: Point
 		get() = Point(xf, yf)
-		set(value) { xf = value.x; yf = value.y }
+		set(value) { xf = value.x.toFloat(); yf = value.y.toFloat() }
 
 	companion object {
 		/**

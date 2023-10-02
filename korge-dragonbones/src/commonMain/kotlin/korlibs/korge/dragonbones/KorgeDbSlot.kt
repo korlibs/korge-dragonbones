@@ -128,7 +128,7 @@ class KorgeDbSlot(pool: SingleObjectPool<KorgeDbSlot>) : Slot(pool) {
 	}
 
 	override fun _updateColor() {
-		val alpha = this._colorTransform.alphaMultiplier.toFloat() * this._globalAlpha.toFloat()
+		val alpha = this._colorTransform.alphaMultiplier.toDouble() * this._globalAlpha
 		//this._renderDisplay?.alpha = alpha
 		//this._renderDisplay?.alpha = 1.0
 
