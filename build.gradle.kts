@@ -22,7 +22,7 @@ korge {
     targetJs()
     targetDesktop()
     targetDesktopCross()
-    targetIos()
+    //targetIos()
     targetAndroid()
     serializationJson()
 }

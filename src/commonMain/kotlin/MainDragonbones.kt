@@ -5,7 +5,7 @@ import korlibs.image.bitmap.mipmaps
 import korlibs.image.format.readBitmap
 import korlibs.io.async.*
 import korlibs.io.file.std.resourcesVfs
-import korlibs.io.serialization.json.Json
+import korlibs.io.serialization.json.*
 import korlibs.korge.input.MouseEvents
 import korlibs.korge.input.mouse
 import korlibs.korge.scene.Scene
@@ -31,10 +31,10 @@ class MainDragonbones : Scene() {
     lateinit var mySceneContainer: SceneContainer
 
     override suspend fun SContainer.sceneMain() {
-        scaleAvg = 0.9
+        scale = 0.9
         //delay(1000.milliseconds)
-        //mySceneContainer.changeToDisablingButtons<HelloWorldScene>()
-        disablingButtons { mySceneContainer.changeTo({ EyeTrackingScene() }) }
+        disablingButtons { mySceneContainer.changeTo { HelloWorldScene() } }
+        //disablingButtons { mySceneContainer.changeTo { EyeTrackingScene() } }
     }
 
     override suspend fun SContainer.sceneInit() {
@@ -47,19 +47,21 @@ class MainDragonbones : Scene() {
             this.y = views.virtualHeight * .5
         }
         buttonContainer = this
-        uiButton("Hello").clicked {
-            println("Hello")
-            launchImmediately { disablingButtons { mySceneContainer.changeTo({ HelloWorldScene() }) } }
-        }.position(8, views.virtualHeight - 48)
-        //this += Button("Classic") { mySceneContainer.changeToDisablingButtons<ClassicDragonScene>() }.position(108, views.virtualHeight - 48)
-        uiButton("Eye Tracking").clicked {
-            println("Eye Tracking")
-            launchImmediately { disablingButtons { mySceneContainer.changeTo({ EyeTrackingScene() }) } }
-        }.position(200, views.virtualHeight - 48)
-        uiButton("Skin Changing").clicked {
-            println("Skin Changing")
-            launchImmediately { disablingButtons { mySceneContainer.changeTo({ SkinChangingScene() }) } }
-        }.position(600, views.virtualHeight - 48)
+        container {
+            position(8, views.virtualHeight - 48)
+            uiButton("Hello").position(0, 0).clicked {
+                println("Hello")
+                launchImmediately { disablingButtons { mySceneContainer.changeTo { HelloWorldScene() } } }
+            }
+            uiButton("Eye Tracking").position(120, 0).clicked {
+                println("Eye Tracking")
+                launchImmediately { disablingButtons { mySceneContainer.changeTo { EyeTrackingScene() } } }
+            }
+            uiButton("Skin Changing").position(240, 0).clicked {
+                println("Skin Changing")
+                launchImmediately { disablingButtons { mySceneContainer.changeTo { SkinChangingScene() } } }
+            }
+        }
     }
 
     inline fun <T> disablingButtons(block: () -> T): T {
@@ -91,7 +93,7 @@ class MainDragonbones : Scene() {
             val imgDeferred = async { res["mecha_1002_101d_show/mecha_1002_101d_show_tex.png"].readBitmap().mipmaps() }
 
             val data = factory.parseDragonBonesData(skeDeferred.await())
-            val atlas = factory.parseTextureAtlasData(Json.parseFast(texDeferred.await())!!, imgDeferred.await())
+            val atlas = factory.parseTextureAtlasData(JsonFast.parse(texDeferred.await())!!, imgDeferred.await())
 
             val armatureDisplay = factory.buildArmatureDisplay("mecha_1002_101d")!!.position(0, 300).scale(SCALE)
 
